@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,14 +7,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool jumping = false;
     Rigidbody2D rb;
     Animator animator;
-    // Start is called before the first frame update
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         var movementX = Input.GetAxis("Horizontal");
@@ -42,6 +39,17 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Moving_bool", false);
         }
 
+
+
+        if(movementX > 0 )
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        } else if(movementX < 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+
+        }
+
     }
 
 
@@ -57,7 +65,7 @@ public class PlayerController : MonoBehaviour
                 jumping = false;
                 animator.SetBool("Jumping_b", false);
 
-                Debug.LogFormat("Collided with obstacle: {0}", collision.gameObject.name);
+                //Debug.LogFormat("Collided with obstacle: {0}", collision.gameObject.name);
                 break;
             default:
                 break;
@@ -72,15 +80,13 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("Jumping_b", true);
                 break;
             case "Obstacle":
-                Debug.LogFormat("No longer colliding with obstacle: {0}", collision.gameObject.name);
+                jumping = true;
+                animator.SetBool("Jumping_b", true);
+                //Debug.LogFormat("No longer colliding with obstacle: {0}", collision.gameObject.name);
                 break;
             default:
                 break;
         }
 
-        //collision.gameObject.CompareTag("Ground")
-        //if ()
-        //{
-        //}
     }
 }
